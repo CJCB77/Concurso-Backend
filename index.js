@@ -1,5 +1,6 @@
 const express = require('express');
 const db = require('./db/connection');
+const verifyToken = require('./validation/verifyToken');
 
 //Add cors
 const cors = require('cors');
@@ -20,7 +21,7 @@ app.use(express.json());
 app.use(cors());
 
 
-app.use('/juguetes', juguetesRoute);
+app.use('/juguetes' , juguetesRoute);
 app.use('/usuario', usuarioRoute);
 app.use('/jugueterias', jugueteriaRoute);
 app.use('/fabricantes', fabricanteRoute);

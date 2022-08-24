@@ -6,9 +6,9 @@ const unlinkFile = util.promisify(fs.unlink);
 
 const getJuguetes = async (req, res) => {
     try{
-        const query = `SELECT juguete.id,juguete.nombre as nombre,id_jugueteria,descripcion,precio,stock,imagen,jugueteria.nombre as jugueteria
+        const query = `SELECT juguete.id,juguete.nombre as nombre,id_fabricante,descripcion,precio,stock,imagen,jugueteria.nombre as jugueteria
             FROM juguete
-            JOIN jugueteria ON juguete.id_jugueteria = jugueteria.id`;
+            JOIN jugueteria ON juguete.id_fabricante = jugueteria.id`;
         const result = await db.query(query);
         res.json(result.rows);
 
@@ -36,11 +36,11 @@ const createJuguete = async (req, res) => {
         //Unlink file from local storage
         await unlinkFile(file.path);
         const imagen = bucketResult.Location;
-        const {id_jugueteria,nombre, precio, descripcion,stock} = req.body;
+        const {id_fabricante,nombre, precio, descripcion,stock} = req.body;
         
-        const query = `INSERT INTO juguete (id_jugueteria,nombre, precio, descripcion,stock, imagen) 
+        const query = `INSERT INTO juguete (id_fabricante,nombre, precio, descripcion,stock, imagen) 
         VALUES ($1,$2,$3,$4,$5,$6) RETURNING *`;
-        const result = await db.query(query, [id_jugueteria,nombre, precio, descripcion,stock, imagen]);
+        const result = await db.query(query, [id_fabricante,nombre, precio, descripcion,stock, imagen]);
         res.json(result.rows[0]);
     }catch(err){
         console.log(err);
@@ -48,7 +48,7 @@ const createJuguete = async (req, res) => {
 }
 
 const updateJuguete = async (req, res) => {
-    const {id_jugueteria,nombre, precio, descripcion,stock, imagen} = req.body;
+    const {id_fabricante,nombre, precio, descripcion,stock, imagen} = req.body;
     try{
         const id = req.params.id;
         if(req.file){
@@ -60,8 +60,8 @@ const updateJuguete = async (req, res) => {
             imagen = bucketResult.Location;
         }
         
-        const query = 'UPDATE juguete SET id_jugueteria = $1, nombre = $2, precio = $3, descripcion = $4, stock = $5, imagen = $6 WHERE id = $7 Returning *';
-        const result = await db.query(query, [id_jugueteria,nombre, precio, descripcion,stock, imagen, id]);
+        const query = 'UPDATE juguete SET id_fabricante = $1, nombre = $2, precio = $3, descripcion = $4, stock = $5, imagen = $6 WHERE id = $7 Returning *';
+        const result = await db.query(query, [id_fabricante,nombre, precio, descripcion,stock, imagen, id]);
         res.json(result.rows[0]);
     }catch(err){
         console.log(err);

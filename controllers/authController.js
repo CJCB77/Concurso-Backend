@@ -26,7 +26,7 @@ const login = async (req, res) => {
     }
     //Generar token
     const token = jwt.sign({id:user.id}, process.env.JWT_SECRET, {expiresIn:'12h'});
-    res.json({
+    res.status(200).json({
         "message":"Login correcto",
         "token":token,
         "rol":user.rol,

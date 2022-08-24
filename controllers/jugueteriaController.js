@@ -29,6 +29,7 @@ const getJugueteria = async (req, res) => {
 }
 
 const createJugueteria = async (req, res) => {
+    console.log(req.body);
     try{
         const {id_usuario,nombre,ruc,titular,ciudad,direccion,telefono} = req.body;
         console.log(req.body);

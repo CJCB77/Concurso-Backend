@@ -40,7 +40,7 @@ CREATE TABLE fabricante(
 
 CREATE TABLE juguete(
     id BIGSERIAL PRIMARY KEY,
-    id_jugueteria BIGINT NOT NULL REFERENCES jugueteria(id) ON DELETE CASCADE,
+    id_jugueteria BIGINT NOT NULL REFERENCES fabricante(id) ON DELETE CASCADE,
     nombre VARCHAR(255) NOT NULL,
     descripcion VARCHAR(255) NOT NULL,
     precio DECIMAL(10,2) NOT NULL,
