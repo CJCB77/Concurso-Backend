@@ -36,7 +36,7 @@ const getJuguetes = async (req, res) => {
 const getJuguete = async (req, res) => {
     try{
         const id = req.params.id;
-        const query = `SELECT juguete.*, fabricante.nombre as fabricante 
+        const query = `SELECT juguete.*, fabricante.nombre as fabricante
             FROM juguete 
             JOIN fabricante ON juguete.id_fabricante = fabricante.id
             WHERE juguete.id = $1`;
