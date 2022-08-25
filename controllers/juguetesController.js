@@ -5,10 +5,26 @@ const util = require('util');
 const unlinkFile = util.promisify(fs.unlink);
 
 const getJuguetes = async (req, res) => {
+    //Query idUsuario
+    const idUsuario = req.query.id_usuario;
+    if(idUsuario){
+        try{
+            const query = `SELECT juguete.*, fabricante.nombre as fabricante FROM juguete
+                JOIN fabricante ON juguete.id_fabricante = fabricante.id
+                JOIN usuario ON fabricante.id_usuario = usuario.id
+                WHERE usuario.id = $1
+                `;
+            const result = await db.query(query, [idUsuario]);
+            return res.json(result.rows);
+        }catch(err){
+            console.log(err);
+        }
+    }
+
     try{
-        const query = `SELECT juguete.id,juguete.nombre as nombre,id_fabricante,descripcion,precio,stock,imagen,jugueteria.nombre as jugueteria
+        const query = `SELECT juguete.id,juguete.nombre as nombre,id_fabricante,descripcion,precio,stock,imagen,fabricante.nombre as fabricante
             FROM juguete
-            JOIN jugueteria ON juguete.id_fabricante = jugueteria.id`;
+            JOIN fabricante ON juguete.id_fabricante = fabricante.id`;
         const result = await db.query(query);
         res.json(result.rows);
 
@@ -20,9 +36,12 @@ const getJuguetes = async (req, res) => {
 const getJuguete = async (req, res) => {
     try{
         const id = req.params.id;
-        const query = 'SELECT * FROM juguete WHERE id = $1';
+        const query = `SELECT juguete.*, fabricante.nombre as fabricante 
+            FROM juguete 
+            JOIN fabricante ON juguete.id_fabricante = fabricante.id
+            WHERE juguete.id = $1`;
         const result = await db.query(query, [id]);
-        res.json(result.rows);
+        res.json(result.rows[0]);
     }catch(err){
         console.log(err);
     }
@@ -32,6 +51,7 @@ const createJuguete = async (req, res) => {
     try{
         const file = req.file;
         console.log(file);
+        console.log(req.body);
         const bucketResult = await uploadFile(file);
         //Unlink file from local storage
         await unlinkFile(file.path);

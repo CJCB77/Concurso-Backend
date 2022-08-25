@@ -1,6 +1,17 @@
 const db = require('../db/connection');
 
 const getFabricantes = async (req, res) => {
+    //Get fabricante by user id query
+    const id_usuario = req.query.id_usuario;
+    if(id_usuario){
+        try{
+            const query = 'SELECT * FROM fabricante WHERE id_usuario = $1';
+            const result = await db.query(query, [id_usuario]);
+            return res.json(result.rows[0]);
+        }catch(err){
+            console.log(err);
+        }
+    }
     try{
         const query = 'SELECT * FROM fabricante';
         const result = await db.query(query);
@@ -16,7 +27,7 @@ const getFabricante = async (req, res) => {
         const id = req.params.id;
         const query = 'SELECT * FROM fabricante WHERE id = $1';
         const result = await db.query(query, [id]);
-        res.json(result.rows);
+        res.json(result.rows[0]);
     }catch(err){
         console.log(err);
     }
