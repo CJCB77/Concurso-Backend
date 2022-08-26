@@ -52,7 +52,7 @@ CREATE TABLE juguete(
 CREATE TABLE orden(
     id BIGSERIAL PRIMARY KEY,
     id_juguete BIGINT NOT NULL REFERENCES juguete(id) ON DELETE CASCADE,
-    id_fabricante BIGINT NOT NULL REFERENCES fabricante(id) ON DELETE CASCADE,
+    id_jugueteria BIGINT NOT NULL REFERENCES jugueteria(id) ON DELETE CASCADE,
     cantidad INTEGER NOT NULL,
     subtotal DECIMAL(10,2) NOT NULL,
     total DECIMAL(10,2) NOT NULL,

@@ -10,7 +10,7 @@ const verifyToken = (req, res, next) => {
         jwt.verify(token, process.env.JWT_SECRET , (err, decoded) => {
             if(err){
                 //If token is not valid, send error
-                return res.json({
+                return res.status(401).json({
                     success: false,
                     message: 'Token is not valid'
                 });
@@ -22,7 +22,7 @@ const verifyToken = (req, res, next) => {
         });
     }else{
         //If token is not provided, send error
-        return res.json({
+        return res.status(401).json({
             success: false,
             message: 'Token is not provided'
         });

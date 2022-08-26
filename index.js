@@ -21,12 +21,12 @@ app.use(express.json());
 app.use(cors());
 
 
-app.use('/juguetes' , juguetesRoute);
-app.use('/usuario', usuarioRoute);
-app.use('/jugueterias', jugueteriaRoute);
-app.use('/fabricantes', fabricanteRoute);
-app.use('/ordenes', ordenesRoutes);
-app.use('/ciudades', ciudadRoutes);
+app.use('/juguetes',verifyToken , juguetesRoute);
+app.use('/usuario',verifyToken, usuarioRoute);
+app.use('/jugueterias',verifyToken, jugueteriaRoute);
+app.use('/fabricantes',verifyToken, fabricanteRoute);
+app.use('/ordenes',verifyToken, ordenesRoutes);
+app.use('/ciudades',verifyToken, ciudadRoutes);
 app.use('/auth', authRoutes);
 
 //Use env variables

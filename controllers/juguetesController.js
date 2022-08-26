@@ -41,6 +41,7 @@ const getJuguete = async (req, res) => {
             JOIN fabricante ON juguete.id_fabricante = fabricante.id
             WHERE juguete.id = $1`;
         const result = await db.query(query, [id]);
+        console.log(result.rows[0]);
         res.json(result.rows[0]);
     }catch(err){
         console.log(err);
